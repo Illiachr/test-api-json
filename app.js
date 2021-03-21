@@ -52,6 +52,9 @@ const options = {
     servers: [
       {
         url: "https://mysterious-fortress-82468.herokuapp.com/api/v0/catalog"        
+      },
+      {
+        url: "http://localhost:3001/api/v0/catalog"        
       }
     ]
   },

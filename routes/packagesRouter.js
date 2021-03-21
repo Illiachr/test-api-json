@@ -83,6 +83,51 @@ const entity = 'packages';
 
 /**
  * @swagger
+ * /packages:
+ *   get:
+ *     tags: [Packages]
+ *     summary: Returns the list of all the packages
+ *     responses:
+ *       200:
+ *         description: The list of the packages
+ *         content: 
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/Package"
+ */
+
+router.get('/', (req, res) => {
+  const data = req.app.customPackageDb.get(entity).value();
+  console.log(data);
+  res.send(data);
+});
+
+/**
+ * @swagger
+ * /packages/base:
+ *   get:
+ *     tags: [Packages]
+ *     summary: Returns the list of all the base packages
+ *     responses:
+ *       200:
+ *         description: The list of the packages
+ *         content: 
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/Package"
+ */
+
+router.get('/base', (req, res) => {
+  const data = req.app.packageDb.get(entity).value();
+  res.send(data);
+});
+
+/**
+ * @swagger
  * /packages/base:
  *   get:
  *     tags: [Packages]
