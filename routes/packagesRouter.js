@@ -28,6 +28,38 @@ const entity = 'packages';
  *         products:
  *           type: array
  *           items:
+ *             type: string
+ *           descripition: list of the products IDs
+ *         price:
+ *           type: number
+ *           format: double
+ *           descripition: price of package
+ *       example:
+ *         id: iRTY587384_
+ *         name: package 1
+ *         description: about package 1
+ *         products: [produtcId_1, produtcId_2]
+ *         price: 1234.56
+ *     PackageInfo:
+ *       type: object
+ *       required:
+ *         - name
+ *         - descripition 
+ *         - products 
+ *         - price
+ *       properties:
+ *         id:
+ *           type: string
+ *           descripition: auto-generated id of the package
+ *         name:
+ *           type: string
+ *           descripition: the name of package
+ *         descripition:
+ *           type: string
+ *           descripition: about package
+ *         products:
+ *           type: array
+ *           items:
  *             $ref: "#/components/schemas/Product"
  *           descripition: list of the products included
  *         price:
@@ -38,6 +70,7 @@ const entity = 'packages';
  *         id: iRTY587384_
  *         name: package 1
  *         description: about package 1
+ *         products: [Product 1, Product2]
  *         price: 1234.56
  */ 
 
@@ -62,7 +95,7 @@ const entity = 'packages';
  *             schema:
  *               type: array
  *               items:
- *                 $ref: "#/components/schemas/Product"
+ *                 $ref: "#/components/schemas/Package"
  */
 
 router.get('/base', (req, res) => {
@@ -107,6 +140,40 @@ router.post('/', (req, res) => {
   } catch (err) {
     return res.sendStatus(500);
   }
+});
+
+/**
+ * @swagger
+ * /packages/{id}/info:
+ *   get:
+ *     tags: [Packages]
+ *     summary: Returns the list of all the base packages
+ *     responses:
+ *       200:
+ *         description: The list of the products
+ *         content: 
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: "#/components/schemas/PackageInfo"
+ *       500:
+ *         description: Internal error
+ *         content: 
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error: string
+ */
+
+router.get('/:id/info', (req, res) => {
+  const products = [];
+  const { id } = req.params;
+  const package = req.app.packageDb.get(entity).value();
+  const productsIds = package.products;
+  console.log(data);
+  res.send(data);
 });
 
 module.exports = router;
