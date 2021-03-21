@@ -77,7 +77,7 @@ router.get('/', (req, res) => {
  * @swagger
  * /products:
  *   post:
- *     summary: Create a new book
+ *     summary: Create a new product
  *     tags: [Catalog]
  *     requestBody:
  *       required: true
@@ -125,7 +125,9 @@ router.post('/', (req, res) => {
  *             type: object
  *             properties:
  *               ids: 
- *                type: string
+ *                type: array
+ *                items:
+ *                  type: string
  *     responses:
  *       200:
  *         description: Products cost
@@ -144,17 +146,16 @@ router.post('/', (req, res) => {
 router.post('/cost', (req, res) => {  
   const filtered = [];
   if (req.body.ids) {
-    const ids = req.body.ids.split(', ');
+    const ids = req.body.ids;
     if (Array.isArray(ids) && ids.length) {
       for (let i = 0; i < ids.length; i++) {
         const product = req.app.db.get(entity).find({ id: ids[i] }).value();
         filtered.push(product);
       }
       const cost = getCost(filtered);
-      console.log('cost: ', +cost.toFixed(4));
       res.send({ cost });
     }
-  } else { res.sendStatus(400) }
+  } else { res.status(400).send({erorr: 'Empty body or ids not array'}); }
 });
 
 /**
@@ -188,7 +189,6 @@ router.get('/:id', (req, res) => {
   if(!product){
     res.sendStatus(404)
   }
-  console.log(product);
   res.send(product);
 });
 

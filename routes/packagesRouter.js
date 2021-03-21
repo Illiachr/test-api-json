@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { setId } = require('../utils');
+const { setId, getAmount } = require('../utils');
 
 const entity = 'packages';
 
@@ -144,13 +144,19 @@ router.post('/', (req, res) => {
 
 /**
  * @swagger
- * /packages/{id}/info:
+ * /packages/{packageId}/info:
  *   get:
  *     tags: [Packages]
  *     summary: Returns the list of all the base packages
+ *     parameters:
+ *       - in: path
+ *         name: packageId
+ *         required: true
+ *         schema: 
+ *           type: string
  *     responses:
  *       200:
- *         description: The list of the products
+ *         description: All info about package
  *         content: 
  *           application/json:
  *             schema:
@@ -164,16 +170,30 @@ router.post('/', (req, res) => {
  *             schema:
  *               type: object
  *               properties:
- *                 error: string
+ *                 error: 
+ *                   type: string
  */
 
 router.get('/:id/info', (req, res) => {
   const products = [];
   const { id } = req.params;
-  const package = req.app.packageDb.get(entity).value();
-  const productsIds = package.products;
-  console.log(data);
-  res.send(data);
+  const package = req.app.customPackageDb.get(entity).find({ id }).value();
+  const ids = package.products;
+  if (Array.isArray(ids) && ids.length) {
+    for (let i = 0; i < ids.length; i++) {
+      const product = req.app.db.get('products').find({ id: ids[i] }).value();
+      products.push(product);
+    }
+    const price = getAmount(products);
+    const packageInfo = {
+      id: package.id,
+      name: 'custom package',
+      description: 'some description',
+      products,
+      price 
+    };
+    res.send(packageInfo);
+  } else { res.sendStatus(500) }
 });
 
 module.exports = router;

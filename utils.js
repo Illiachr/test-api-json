@@ -10,4 +10,4 @@ const getAmount = arr => arr.reduce(
   }, 0);
 const getCost = arr => normalizeAmout(getAmount(arr));
 
-module.exports = { setId, getCost };
+module.exports = { setId, getCost, getAmount };
