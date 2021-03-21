@@ -61,8 +61,6 @@ const options = {
   apis: ["./routes/*.js"]
 };
 
-// "http://localhost:3001/api/v0/catalog"
-
 const specs = swaggerJsDoc(options);
 
 app.db = db;
