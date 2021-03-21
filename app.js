@@ -20,19 +20,19 @@ const customPackageDb = require('./models/customPackagesModel');
 const PORT = process.env.PORT || '3001';
 const products = [
     {
-      "id": nanoid(),
+      "id": "EyXYiNFsakej-Q4VEgSIQ",
       "name": "product 1",
       "description": "product 1",
       "price": 1000
     },
     {
-      "id": nanoid(),
+      "id": "ebZWdYAThJke5slt71npP",
       "name": "product 2",
       "description": "product 2",
       "price": 1500
     },
     {
-      "id": nanoid(),
+      "id": "uIaajuPPrktNxF1DPG_AD",
       "name": "product 3",
       "description": "product 3",
       "price": 2000
