@@ -1,7 +1,10 @@
 const idLength = 8;
-const { nanoid } = require('nanoid');
+const { nanoid, customAlphabet } = require('nanoid');
+
+const nanoidNum = customAlphabet('1234567890', idLength);
 
 const setId = () => nanoid(idLength);
+const setIdNum = () => nanoidNum();
 const normalizeAmout = amount => +amount.toFixed(4);
 const getAmount = arr => arr.reduce(
   (acc, product) => {
@@ -10,4 +13,4 @@ const getAmount = arr => arr.reduce(
   }, 0);
 const getCost = arr => normalizeAmout(getAmount(arr));
 
-module.exports = { setId, getCost, getAmount };
+module.exports = { setId, getCost, getAmount, setIdNum};

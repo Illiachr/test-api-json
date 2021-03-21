@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { setId, getAmount } = require('../utils');
+const { setId, getAmount, setIdNum } = require('../utils');
 
 const entity = 'packages';
 
@@ -130,7 +130,7 @@ router.get('/base', (req, res) => {
 router.post('/', (req, res) => {
   try {
     const package = {
-      id: setId(),
+      id: setIdNum(),
       products: req.body.ids
     };
     req.app.customPackageDb.get(entity)
